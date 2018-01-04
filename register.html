@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>register</title>
+    
+<!--    <link rel="stylesheet" type="text/css" href="styles/all.css">-->
+    <link rel="stylesheet" type="text/css" href="styles/register.css">
+    <script src="script/register.js"></script>
+    
+</head>
+    <!-- <body onload="checkData()" onunload="saveData()"> -->
+    <body onload="checkData()">
+        <div id="register">        
+            <form id="regForm" onsubmit="return false" autocomplete="off" style="text-align: center;">
+                <input type="text" id="t" style="background: inherit;">
+                <input type="submit" onclick="functionStore()">
+            </form>
+            <!-- <button id="load" onclick="checkData()">Load</button>
+            <button id="save" onclick="saveData()" >Save</button> -->
+            <!-- <button onclick="functionStore()" >Submit</button>
+            <button onclick="retrieveData()">Retrieve</button>
+            <button onclick="storeLocal()" >Store Local</button>
+            <button onclick="retrieveLocal()">Retrieve Local</button>
+            <button onclick="storageClear()">Clear</button> -->
+            <header style="text-align: center; font-size: 50px;">Stars of Destiny</header>
+            <p id ="tabletOfDestiny" class="columns"></p>
+<!--
+<!--
+            <form action="/server/registration.php" method="post" id="registration-form" target="_blank">
+                <label for="Pname">Name</label>
+                <input type="text" id="Pname" name="PName" required="required" autofocus>
+                <button type="submit">Register</button>
+                
+-->
+<!--            </form>-->
+<!--
+           <form action="welcome_get.php" method="post">
+Name: <input type="text" name="name"><br>
+E-mail: <input type="text" name="email"><br>
+<input type="submit">
+</form>
+-->
+        </div>
+    </body>
+</html>

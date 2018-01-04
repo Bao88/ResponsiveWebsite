@@ -1,0 +1,228 @@
+@font-face {
+    font-family: "Zelda";
+    src: url("Fonts/HyliaSerifBeta-Regular.otf");
+}  
+
+#bgvid {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100;
+    transform: translateX(-50%) translateY(-50%);
+    opacity: 0.5; 
+}
+
+@keyframes fadeinout {
+    0% {opacity: 0}
+    50% {opacity: 1}
+    100% {opacity: 0}
+}
+
+@keyframes fadeout {
+    from {opacity: 1}
+    to {opacity: 0}
+}
+
+.introOverlay {
+    display: flex;
+    font-size: 50px;
+/*    color: linear-gradient(to right, blue, green);*/
+    color: white;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+#test {
+    border: none;
+}
+
+
+#text1 {
+    animation-name: fadeinout;
+    animation-duration: 5s;
+    opacity: 0;
+}
+
+#text2 {
+    animation-name: fadeinout;
+    animation-duration: 5s;
+    opacity: 0;
+    position: absolute;
+    animation-delay: 5s;
+}
+
+#text3 {
+    animation-name: fadeinout;
+    animation-duration: 5s;
+    opacity: 0;
+    position: absolute;
+    animation-delay: 10s;
+}
+
+@keyframes enterButton {
+    from {opacity: 0}
+    to {opacity: 1}
+}
+
+#introButton {
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 240px;
+    width: 200px;
+    margin-top: -120px;
+    margin-left: -100px;
+    z-index: 10;
+    animation-name: enterButton;
+    animation-duration: 5s;
+    animation-delay: 15s;
+    opacity: 0;
+    animation-fill-mode: forwards;
+}
+
+
+#introButton:focus {
+    outline: 0;
+    animation-name: fadeout;
+    animation-duration: 5s;
+    animation-delay: 0s;
+}
+
+
+#logo {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    height: 200px;
+    width: 400px;
+    font-size: 30px;
+    margin-left: -200px;
+    border: 1px solid red;
+}
+
+#navWheel {
+    position: fixed;
+    height: 200px;
+    width: 200px;
+    top: 20%;
+    left: 90%;
+    margin-top: -100px;
+    margin-left: -100px;
+    border: 1px solid;
+    z-index: 5;
+}
+
+#UserInterface {
+    opacity: 0;
+}
+
+#UserInterface:focus {
+    outline: 0;
+    animation-name: enterButton;
+    animation-duration: 5s;
+    animation-delay: 0s;
+    animation-fill-mode: forwards;
+}
+
+
+
+#sideBar:hover {
+    left: 0;
+    transition: 0.5s linear;
+}
+
+#sideBar {
+    position: fixed;
+    top: 0;
+    left: -10%;
+    height: 100%;
+    width: 20%;
+    border: 1px solid black;
+    overflow: hidden;
+    transition: 0.5s linear;
+}
+
+#main {
+    position: absolute;
+    left: 50%;
+    top: 30%;
+    /* height: 100%; */
+    min-height: 100%;
+    overflow: auto;
+    width: 50%;
+    background-color: rgba(51, 50, 50, 0.5);
+    border-radius: 25px;
+    margin-left: -25%;
+/*    background-blend-mode: color;*/
+    border: 10px solid transparent;
+    /* border-image: url("https://i.redd.it/y8cyb8jv7vfy.jpg") 30 stretch; */
+}
+
+#main * {
+    max-width: 100%;
+}
+
+
+#preview {
+    position: absolute;
+    top:0;
+    right: 0;
+    height: 400px;
+    width: 400px;
+    border: 1px solid black;
+    display: none;
+}
+
+
+
+#outside:hover #preview {
+    display: block;
+}
+#outside {
+    position: absolute;
+    height: 200px;
+    width: 200px;
+    top: 20%;
+    left: 90%;
+}
+
+#button {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 20px;
+    border-radius: 25px;
+    width: 100%;
+    height: 100px;
+    border: 1px solid red;
+    display: flex;
+    padding-top: 35px;
+    justify-content: center;
+}
+
+#button:hover {
+    background-color: darkgray;
+    opacity: 0.5;
+/*
+    font-size: 30px;
+    transition: 1s;
+*/
+}
+
+#titleZelda {
+    font-size: 50px;
+    text-align: center;
+    text-shadow: 2px 2px white;
+}
+
+#gametitle {
+    font-size:  30px;
+    text-align: center;
+    text-shadow: 2px 2px white;
+}

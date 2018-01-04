@@ -1,0 +1,40 @@
+function sidebarAds(site, content, sidebar, pixelOffset, limit, prefix, lazyload_unit) {
+	var contentHeight = parseInt(content.getStyle("height")) - pixelOffset;
+	var viewportHeight = Math.max(document.viewport.getHeight() - 125, 1000);
+	var count = Math.floor((contentHeight) / viewportHeight);
+
+	// Make sure we only render a certain number of ads,
+	// even if there is space for more	
+	if(count > limit) {
+		count = limit;
+	}
+	
+	// Even though there isn't a full viewport's worth of space,
+	// there might be just enough space to render an ad before
+	// the article ends.	
+	if(count == 0 && contentHeight >= 600) {
+		count = 1;
+	}
+							
+	for(i = 0; i < count; i++) {
+		var sizes = i == 0 ? "300x250" : "300x250,300x600";
+		var position = i+1;									
+		var block = document.createElement("div");
+		block.className = "sidebar-mpu-container";
+		if(position !== count) {
+			block.style.paddingBottom = viewportHeight + "px";
+		}
+		block.innerHTML = ' \
+			<div class="mpu"> \
+				<div \
+					class="lazyload" \
+					data-dfp-id="' + lazyload_unit + '" \
+					data-dfp-sizes="' + sizes + '" \
+					data-dfp-targeting="site=' + site + '&position=' + site + '-' + position + '&lazyload=true&sticky=false" \
+					id="div-ga-' + prefix + '_MPU_' + position + '" \
+				></div> \
+			</div>';								
+		sidebar.appendChild(block);
+	}
+
+}

@@ -1,0 +1,60 @@
+var Core = Class.create({
+	
+	initialize: function(args)
+	{					 
+		// Homepage
+		this.normalizeBreaking(2, "above-fold", "breaking", $$("#low-news > .news > ul").shift());
+		this.normalizeBreaking(4, "below-fold", "low-news");
+	},
+	
+	normalizeBreaking: function(wait, target, news, destination)
+	{
+		window.setTimeout(this.doNormalization.bind(this, target, news, destination), (wait * 1000));
+	},
+	
+	doNormalization: function(target, news, destination)
+	{
+		if(
+			$(target)
+			&&
+			$(news)
+		)
+		{
+			var remainder = [];
+			var height = $(target).getHeight();
+			
+			var items = $$("#" + news + " > .news > ul > li");		
+			var acc = $$("#" + news + " > .news > .heading").shift() ? $$("#" + news + " > .news > .heading").shift().getHeight() : 0;
+			
+			// Iterate over items, and deal with the item
+			// when its position exceeds the total height of the parent
+			for(i = 0; i < items.length; i++)
+			{
+				acc += items[i].getHeight();
+
+				if(acc > height)
+				{
+					if(destination)
+					{
+						remainder.push(items[i]);
+					}
+					else
+					{
+						items[i].remove();
+					}
+				}
+			}
+			
+			// Relocate the remainder items to a different place						
+			if(destination && remainder.length > 0)
+			{
+				remainder = remainder.reverse();			
+				for(i = 0; i < remainder.length; i++)
+				{
+					new Insertion.Top(destination, remainder[i]);
+				}
+			}
+		}
+	}	
+
+});

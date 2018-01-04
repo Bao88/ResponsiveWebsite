@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    
+    <script type="text/javascript" src="/script/PictureLibrary.js"></script>
+
+    <link rel="stylesheet" href="/styles/all.css" type="text/css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/styles/PictureLibrary.css" type="text/css">
+
+    <title>Picture Library</title>
+</head>
+<body>
+    <header id="head">
+            <div id="fileUpload" class="focusing" ondragover="allowDrop(event)" ondrop="dropImage(event)">
+                    <form id="formID" method="POST" enctype="multipart/form-data" onsubmit="return false;">
+                        <input type="file" name="data" id="inputID" accept="image/*"> 
+                        <input type="submit" value="Submit" id="submitButton">
+                    </form>
+
+                    <span onclick="inputClick()" style="cursor:pointer">
+                        <span id="uploading">Choose a file </span>
+                        &nbsp;or drag it here.
+                    </span>
+            </div>
+            
+        
+            <span id=trash class="focusing" ondragover="allowDrop(event)" ondrop="drop(event)">
+                <div id="backgroundText">Recycle Bin</div>
+                
+                <div id="backgroundImage">&#x267b;</div>
+            </span>
+            <div id="droppedItems" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+    </header>
+        
+        
+        
+       
+        
+        <h1 id="images">Images</h1> 
+        
+        <div id="library" ondragover="allowDrop(event)" ondrop="drop(event)">
+            <div onclick="fetchImages()" style="cursor:pointer;" style="user-select: none; user-drag: none">
+                Fetch
+            </div>
+            <img id="img1" src="/styles/images/upload-icon-3.png" alt="Dragme" width="200" height="200" ondrag="dragStart(event)" draggable="true">
+            <img id="img2" src="/styles/images/upload-icon-3.png" alt="Dragme" width="200" height="200" ondrag="dragStart(event)" draggable="true">
+            <!-- <div draggable="true" ondragstart="dragStart(event)" style="cursor:pointer;"><img src="" alt="Dragme" width="200" height="200" style="border:1px solid red;"></div> -->
+        </div>
+            
+        
+
+        <!-- <div>
+                <h1>Ajax Image Upload</h1><br/>
+                <hr>
+                <form id="uploadimage" action="" method="post" enctype="multipart/form-data">
+                <div id="image_preview"><img id="previewing" src="noimage.png" /></div>
+                <hr id="line">
+                <div id="selectImage">
+                <label>Select Your Image</label><br/>
+                <input type="file" name="file" id="file" required />
+                <input type="submit" value="Upload" />
+                </div>
+                </form>
+                </div>
+                <h4 id='loading' >loading..</h4>
+                <div id="message"></div> -->
+</body>
+</html>

@@ -1,0 +1,206 @@
+var BestOf = Class.create({
+	
+	initialize: function(args)
+	{
+		this.target = args.target;
+		this.selector = "article > main > section";
+		this.sections = $$(this.selector);
+		this.adBreak = 7;
+
+		if(
+			this.target &&
+			this.sections.length > 0
+		)
+		{
+			this.position = 0;
+            this.oldTimeout = null;
+            this.readyPageView = false;
+
+			this.generateObjects();
+			this.injectAdSlots();
+			this.generateThumbnails();
+			this.listen();
+			this.run();
+		}
+	},
+	
+	generateObjects: function()
+	{
+		this.frame		= new Element("div", { class: "frame" });
+		this.image		= new Element("img");
+		this.advert		= new Element("div", { class: "mpu" }).update(' \
+			<div \
+				class="lazyload" \
+				data-dfp-id="GN_Lazy_Load_HP_MPU" \
+				data-dfp-sizes="300x250" \
+				data-dfp-targeting="site=vg247.com&position=vg247.com-1&lazyload=true&sticky=false" \
+				id="div-ga-BESTOF_MPU_1" \
+			></div>');
+
+		this.header		= new Element("div", { class: "header"});		
+		this.counter	= new Element("span", { class: "counter" }).update("<span>1</span> of " + this.sections.length);
+		this.buttons	= new Element("div", { class: "buttons" });	
+		this.previous	= new Element("button", { class: "button previous" }).update('<i class="fa fa-angle-left"></i> Previous');
+		this.next		= new Element("button", { class: "button next" }).update('Next <i class="fa fa-angle-right"></i>');
+
+		this.thumbnails	= new Element("div", { class: "thumbnails" }).update("<div class='thumbnails-strip'></div>");	
+		
+		new Insertion.Bottom(this.header, this.counter);
+		new Insertion.Bottom(this.header, this.buttons);
+		new Insertion.Bottom(this.buttons, this.previous);
+		new Insertion.Bottom(this.buttons, this.next);
+
+		new Insertion.Bottom(this.frame, this.image);
+		new Insertion.Bottom(this.frame, this.advert);
+		
+		new Insertion.Bottom(this.target, this.header);
+		new Insertion.Bottom(this.target, this.frame);
+		new Insertion.Bottom(this.target, this.thumbnails);
+
+		this.footer = this.header.clone(true);
+		this.footer.className = "footer";
+		new Insertion.Bottom(this.target, this.footer);
+
+	},
+	
+	generateThumbnails: function()
+	{		
+		var thumbs = "";
+		for(i = 0; i < this.sections.length; i++)
+		{
+			image = this.sections[i].select("img").first();
+			var image_src = image ? image.src : "/wp-content/themes/vg247/images/top-story.jpg";
+			thumbs += '<div><img src="' + image_src + '" data-position="' + i + '"/></div>';
+		}
+		
+		this.thumbnails.select(" > div ").first().update(thumbs);				
+	},
+	
+	injectAdSlots: function() {
+		for(i = 0; i < this.sections.length; i++) {
+			if(i > 0 && i % (this.adBreak-1) == 0) {
+				var adSlot = document.createElement("section")
+				adSlot.setAttribute("data-ad", true);
+				adSlot.innerHTML = "";
+				adSlot.className = "hidden";
+				
+				new Insertion.After(this.sections[i], adSlot);
+			}
+		}	
+		this.sections = $$(this.selector);
+	},
+	
+	listen: function()
+	{
+
+		new Event.observe(this.header.select(".previous").first(), "click", this.back.bind(this));
+		new Event.observe(this.header.select(".next").first(), "click", this.forward.bind(this));
+
+		new Event.observe(this.footer.select(".previous").first(), "click", this.back.bind(this));
+		new Event.observe(this.footer.select(".next").first(), "click", this.forward.bind(this));
+
+		new Event.observe(this.image, "click", this.forward.bind(this));
+		
+		new Event.observe(window, "keyup", this.processKeypress.bind(this));
+
+		var thumbs = this.thumbnails.select("img");
+		for(i = 0; i < thumbs.length; i++)
+		{		
+			new Event.observe(thumbs[i], "click", this.move.bind(this));
+		}
+	},
+	
+	processKeypress: function(e)
+	{
+		if(e)
+		{
+			switch(e.keyCode)
+			{
+				case Event.KEY_LEFT:
+					this.back(e);
+				break;
+	
+				case Event.KEY_RIGHT:
+					this.forward(e);
+				break;
+			}
+		}
+	},
+	
+	back: function(e)
+	{
+		if(e) e.preventDefault();
+
+		this.position--;
+		if(this.position < 0) this.position = this.sections.length - 1;
+		this.run();
+
+		return;
+	},
+
+	forward: function(e)
+	{
+		if(e) e.preventDefault();
+
+		this.position++;
+		if(this.position > this.sections.length - 1) this.position = 0;
+		this.run();
+		
+		return;
+	},
+	
+	move: function(e)
+	{
+		if(e) e.preventDefault();
+		
+		this.position = e.findElement("img").getAttribute("data-position");
+		this.run();
+		
+		return;
+	},
+	
+	run: function(e)
+	{		
+		this.sections.each(function(o) { o.addClassName("hidden") });
+
+		var counters = this.target.select(".counter");
+		for(i = 0; i < counters.length; i++)
+		{
+			counters[i].update("<span>" + (parseInt(this.position)+1) + "</span> of " + this.sections.length);
+		}
+		
+		var target = this.sections[this.position];		
+		var image = target.select("img").first();
+		
+		// Clear the advert
+		this.advert.select('div').first().update('');
+		
+		if(image) {
+			this.image.src = image.src;
+			this.image.style.display = "block";
+			this.advert.style.display = "none";
+		} else {			
+
+			this.image.style.display = "none";
+			this.advert.style.display = "block";
+			
+			// Send fresh pageview to the Google and refresh the ad
+            ga('send', 'pageview');
+            googletag.pubads().refresh();
+		}
+		
+		target.removeClassName("hidden");
+		target.addClassName("active");
+
+		this.thumbnails.select("div").each(function(o) { o.removeClassName("active"); });
+		var thumb = this.thumbnails.select("img")[this.position];
+		thumb.up("div").addClassName("active");
+
+		var strip = $$(".thumbnails-strip").first();
+		var w = thumb.up("div").getWidth() + parseInt(thumb.up("div").getStyle("margin-right"));
+
+		strip.setStyle({
+			marginLeft: "-" + (w * this.position) + "px"
+		});
+	}	
+});

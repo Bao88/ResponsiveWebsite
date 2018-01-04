@@ -1,0 +1,259 @@
+.mormont-recommendations,
+.mormont-recommendations * {
+	box-sizing: border-box;
+}
+
+.mormont-recommendations {
+	position: relative;
+	float: left;
+	width: 100%;
+	clear: both;
+	z-index: 5;
+}
+
+.mormont-recommendations > div {
+	position: relative;
+	clear: both;
+}
+
+.mormont-recommendations.large > div {
+	max-width: 26rem;
+	margin: 0 auto;
+}
+
+.mormont-recommendations > div p.section-title {
+	text-transform: uppercase;
+	font-size: .75rem;
+	font-weight: normal;
+	letter-spacing: .05em;
+	margin: 0;
+	padding: 0 0 .25rem;
+	font-weight: bold;
+	text-align: left;
+	color: black;
+}
+
+.mormont-recommendations + * {
+	clear: left;
+}
+
+.mormont-recommendation {
+	position: relative;
+	float: left;
+	width: 100%;
+	border: none;
+	padding: .5rem 0;
+	overflow: hidden;
+	border-top: 1px solid #e0e0e0;
+}
+
+.mormont-recommendation:last-child {
+	margin-bottom: 1rem;
+	border-bottom: 1px solid #e0e0e0;
+}
+
+.mormont-recommendation.large {
+	padding-left: 5.5rem;
+}
+
+.mormont-recommendation.large .strapline {
+	display: block;
+}
+
+.mormont-recommendation .cover {
+	position: absolute;
+	display: block;
+	top: .5rem;
+	bottom: .5rem;
+	left: 0;
+	width: 5rem;
+	background-size: cover;
+	background-position: center center;
+	background-repeat: no-repeat;
+	border-radius: .25rem;
+	border: none;
+	z-index: 2;
+}
+
+.mormont-recommendation .title {
+	margin: 0 0 .125rem;
+	padding: 0;
+	line-height: 1.25;
+}
+
+.mormont-recommendation .title a {
+	font-weight: bold;
+	color: #0069ff;
+}
+
+.mormont-recommendation .strapline {
+	display: none;
+	font-size: .8375rem;
+	font-weight: normal;
+	margin: 0;
+	padding: 0;
+	line-height: 1.4;
+	color: #404040;
+}
+
+.mormont-recommendations.eurogamer .title {
+	font-size: .875rem;
+}
+
+.mormont-recommendations.eurogamer .strapline {
+	font-family: Verdana, sans-serif;
+	font-size: .675rem;
+}
+
+@media screen and (min-width: 728px) {
+	
+	.mormont-recommendations.large {
+		float: right;
+		max-width: 18rem;
+		margin-left: 1.5rem;
+	}
+}
+
+.mormont-recommendations.desktop {
+
+}
+
+.mormont-recommendations.desktop .mormont-recommendation.large {
+	padding-left: 6.125rem;
+	padding-right: .75rem;
+}
+
+.mormont-recommendations.desktop .mormont-recommendation {
+	background-color: #505660;
+	background-image: linear-gradient(#505660, #434850);
+	border-top: 1px solid rgba(255,255,255, .25);
+	border-bottom: 1px solid rgba(0,0,0, .25);	
+	-webkit-font-smoothing: antialiased;
+	padding: .5rem;
+}
+
+.mormont-recommendations.desktop .mormont-recommendation .cover {
+	left: .5rem;
+}
+
+.mormont-recommendations.desktop .mormont-recommendation:first-of-type {
+	border-radius: .25rem .25rem 0 0;
+}
+
+.mormont-recommendations.desktop .mormont-recommendation:last-of-type {
+	border-radius: 0 0 .25rem .25rem;
+}
+
+.mormont-recommendations.desktop .mormont-recommendation:only-of-type {
+	border-radius: .25rem .25rem;
+}
+
+.mormont-recommendations.desktop .mormont-recommendation .title,
+.mormont-recommendations.desktop .mormont-recommendation .strapline {
+	color: white;
+	text-shadow: 0 1px 1px rgba(0,0,0,0.25);
+}
+
+.mormont-recommendations.desktop .mormont-recommendation .title a {
+	color: #89D5FF;
+}
+
+/* ---- USgamer ----------------------------------------- */
+
+.mormont-recommendations.usgamer .mormont-recommendation .title,
+.mormont-recommendations.usgamer .mormont-recommendation .strapline {
+	font-family: inherit;
+	text-shadow: none;
+}
+
+.mormont-recommendations.usgamer .mormont-recommendation .title {
+	font-size: .9375rem;
+}
+
+.mormont-recommendations.usgamer .mormont-recommendation .title a {
+	color: #0190d5;
+}
+
+.mormont-recommendations.usgamer.desktop .mormont-recommendation .title a {
+	color: #3fb4ed;
+}
+
+.mormont-recommendations.usgamer .mormont-recommendation .strapline {
+	font-size: .8375rem;
+}
+
+.mormont-recommendations.small.desktop.usgamer > div {
+	max-width: 38rem;
+	margin: 0 auto;
+}
+
+/* ---- VG247 --------------------------------------------------------------- */
+
+.mormont-recommendations.vg247 .section-title {
+    color: white;
+    padding: .75rem;
+    line-height: 1;
+    background-color: #353232;
+}
+
+.mormont-recommendations.vg247 .section-title:after {
+    color: #353232;
+    right: auto;
+    width: 5.5rem;
+}
+
+.mormont-recommendations.vg247 .mormont-recommendation {
+    background-image: none;
+    background-color: #edecec;
+	font-family: inherit;
+}
+
+.mormont-recommendations.vg247 .mormont-recommendation,
+.mormont-recommendations.vg247 .mormont-recommendation:first-of-type,
+.mormont-recommendations.vg247 .mormont-recommendation:last-of-type {
+    border-radius: 0;
+	border-top: 1px solid #fcfcfc;
+	border-bottom: 1px solid #d3d3d3;
+}
+
+.mormont-recommendations.vg247 .mormont-recommendation .cover {
+    border-radius: 0;
+    left: .5rem;
+    width: 4.5rem;
+}
+
+.mormont-recommendations.vg247.large.desktop .mormont-recommendation .cover {
+    top: -1px;
+    bottom: -1px;
+    left: 0;
+    width: 5.5rem;
+}
+
+.mormont-recommendations.vg247 .mormont-recommendation .title,
+.mormont-recommendations.vg247 .mormont-recommendation .strapline {
+    text-shadow: none;
+	color: #505050;
+}
+
+.mormont-recommendations.vg247 .mormont-recommendation .title a {
+    color: #c60009;
+}
+
+.mormont-recommendations.vg247 .mormont-recommendation .strapline {
+    font-size: .75rem;
+    color: inherit;
+}
+
+.mormont-recommendations.vg247.large.desktop {
+    margin-right: -9rem;
+    max-width: 20rem;
+}
+
+.mormont-recommendations.vg247.large .mormont-recommendation .title {
+    font-size: .875rem;
+    margin-bottom: .25rem;
+}
+
+.mormont-recommendations.vg247.small .mormont-recommendation .title {
+    font-size: .8375rem;
+}

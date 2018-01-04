@@ -1,0 +1,98 @@
+var Lightbox = Class.create({
+
+	initialize: function(args)
+	{
+		this.selector = args.selector;
+		this.timeout = 0;
+		this.lightbox = new Element("div", { "class": "lightbox-popup" } );
+		this.image = new Element("img", { "width": "1", "height": "1" } );
+		this.loader = new Element("div", { "class": "loading" } ).update('<i class="icon-spinner icon-spin"></i> Loading&hellip;');
+
+		new Insertion.Top(this.lightbox, this.loader);
+		new Insertion.Top(this.lightbox, this.image);
+		new Insertion.Bottom(document.body, this.lightbox);
+						
+		Event.observe(this.lightbox, "click", this.kill.bind(this));
+
+		Event.observe(window, "keyup", this.processKeystroke.bind(this));		
+		
+		this.listen();
+	},
+	
+	listen: function()
+	{
+		this.links = $$(this.selector);
+
+		for(i = 0; i < this.links.length; i++)
+		{
+			this.links[i].stopObserving();
+			Event.observe(this.links[i], "click", this.open.bind(this));
+		}	
+	},
+	
+	kill: function(e)
+	{
+		if(e) e.preventDefault();
+		
+		this.lightbox.removeClassName("active");
+		this.loader.removeClassName("active");
+		
+		return;
+	},
+	
+	loaded: function(e)
+	{
+		if(e) e.preventDefault();
+
+		this.loader.removeClassName("active");
+		this.image.stopObserving();
+
+		return;
+	},
+
+	processKeystroke: function(e)
+	{
+		if(e.keyCode == 27 && this.lightbox.hasClassName("active"))
+		{
+			e.preventDefault();
+			this.kill();
+		}
+	},
+	
+	open: function(e)
+	{
+		if(screen.width > 480)
+		{
+			if(e) e.preventDefault();
+	
+			var link = e.findElement("a");
+			
+			if(link)
+			{
+				var image = link.select("img").shift();				
+				var src = link.href;
+			}
+			else
+			{
+				var image = e.findElement("img");
+				var src = image.src;
+			}
+	
+			this.lightbox.addClassName("active");
+			this.loader.addClassName("active");
+			
+			this.image.src = "/static/img/pixel.gif";
+			Event.observe(this.image, "load", this.loaded.bind(this));
+			this.image.src = image.getAttribute("data-asset-id") ? image.getAttribute("data-asset-id") : src;				
+	
+			if(image)
+			{
+				this.image.width = image.getAttribute("data-original-width") ? image.getAttribute("data-original-width") : "auto";
+				this.image.height = image.getAttribute("data-original-height") ? image.getAttribute("data-original-height") : "auto";
+			}
+			
+			return;
+		}
+	}
+
+});

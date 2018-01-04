@@ -1,0 +1,97 @@
+var Timestamp = Class.create({
+	
+	initialize: function(args)
+	{
+		this.debug = false;
+		this.strings = args.strings;
+				
+		this.update();
+	},
+	
+	log: function(x)
+	{
+		if(this.debug)
+		{
+			console.log(x);
+		}
+	},
+	
+	format: function(type, size)
+	{
+		return (size == "long" ? " " : "") + this.strings[size][type] + " " + this.strings.ago;
+	},
+		
+	update: function()
+	{
+		this.timestamps = $$("*[data-timestamp]");
+		
+		for(i = 0; i < this.timestamps.length; i++)
+		{
+			var timestamp = this.timestamps[i];
+			var format = timestamp.getAttribute("data-timestamp-format") ? timestamp.getAttribute("data-timestamp-format") : "long";
+			var date = new Date(timestamp.getAttribute("data-timestamp") * 1000);
+
+			var stamp = this.timeAgoInWords(date, format);
+			timestamp.update(stamp);
+		}
+	},
+  
+    timeAgoInWords: function(targetDate, format)
+    {
+		return this.distanceOfTimeInWords(targetDate, format);
+    },
+  
+    /**
+     * Return the distance of time in words between two Date's
+     * Example: '5 days ago', 'about an hour ago'
+     * @param {Date} fromTime The start date to use in the calculation
+     * @param {Date} toTime The end date to use in the calculation
+     * @param {Boolean} Include the time in the output
+     */
+    distanceOfTimeInWords: function(timestamp, format)
+    {
+	    var unix = Math.round(+new Date()/1000);
+	    var timestamp = Math.round(timestamp.getTime()/1000);
+		var delta = parseInt(unix) - parseInt(timestamp);
+
+		if (delta <= 0) {
+			return "1" + this.format("second", format);
+		} else if (delta < 60) {
+			return delta + this.format("seconds", format);
+		} else if (delta < 120) {
+			return "1" + this.format("minute", format);
+		} else if (delta < (45*60)) {
+			return (parseInt(delta / 60)).toString() + this.format("minutes", format);
+		} else if (delta < (120*60)) {
+			return "1" + this.format("hour", format);
+		} else if (delta < (24*60*60)) {
+			return '' + (parseInt(delta / 3600)).toString() + this.format("hours", format);
+		} else if (delta < (48*60*60)) {
+			return "1" + this.format("day", format);
+		} else {
+
+			var days = (parseInt(delta / 86400)).toString();
+			
+			if(days < 30)
+			{
+				return days + this.format("days", format);
+			}
+			else if(days < 60)
+			{
+				return "1" + this.format("month", format);
+			}
+			else if(days < 365)
+			{
+				return Math.ceil(days / 30) + this.format("months", format);
+			}
+			else if(days < 730)
+			{
+				return Math.ceil(days / 30) + this.format("year", format);
+			}
+			else
+			{
+				return Math.ceil(days / 365) + this.format("years", format);
+			}
+		}
+    }	
+});

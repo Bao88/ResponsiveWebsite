@@ -1,0 +1,70 @@
+LazyCovers = Class.create(
+{
+	initialize: function(options)
+	{
+		this.options = options || {};
+				
+		if(this.options.elements.length > 0)
+		{					
+			this.options.elements.each(
+			    function(el)
+			    {
+			        if(this.withinViewport(el))
+			        {
+			        	this.loadCover(el);
+					}
+				}.bind(this)
+			);
+			Event.observe(window, 'scroll', this.scroll.bind(this));
+			Event.observe(window, 'resize', this.scroll.bind(this));
+		}
+	},
+	
+	loadCover: function(el)
+	{	
+		if(!el.getAttribute("data-cover-loaded") && el.getAttribute("data-cover"))
+		{		
+			el.setStyle(
+				{
+					backgroundImage: "url(" + el.getAttribute("data-cover") + ")"
+				}
+			)
+			el.setAttribute("data-cover-loaded", true);
+		}
+	},
+
+	scroll: function(el)
+	{
+		this.options.elements.each(
+			function(el)
+			{
+				if(this.withinViewport(el))
+				{
+					this.loadCover(el);
+				}
+			}.bind(this)
+		);
+	},
+
+	withinViewport: function(el)
+	{
+		var elOffset = el.cumulativeOffset(),
+		vpOffset = document.viewport.getScrollOffsets(),
+		elDim = el.getDimensions();
+		vpDim = document.viewport.getDimensions();
+
+		if(
+			elOffset.top + elDim.height < vpOffset.top
+			||
+			elOffset.top > vpOffset.top + vpDim.height
+			||
+			elOffset.left + elDim.width < vpOffset.left
+			||
+			elOffset.left > vpOffset.left + vpDim.width
+		)
+		{
+			return false;
+		}
+		return true;
+	}
+});

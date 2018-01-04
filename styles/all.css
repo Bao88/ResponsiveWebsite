@@ -1,0 +1,23 @@
+*{
+    box-sizing: border-box;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+}
+
+@font-face {
+    font-family: "Zelda";
+    src: url("/Fonts/HyliaSerifBeta-Regular.otf");
+}
+
+body {
+    background: url("https://i.imgur.com/DnnUxNJ.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    width: 100%;
+    height: 100%;
+    font-family: Zelda;
+    color: black;
+    font-size: 18px;
+}
+

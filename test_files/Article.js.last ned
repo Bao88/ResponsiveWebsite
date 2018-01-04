@@ -1,0 +1,132 @@
+var Article = Class.create({
+	
+	initialize: function()
+	{
+		try
+		{
+			this.article = $$("article").shift();
+			this.permalink = encodeURIComponent(window.location);
+						
+			this.body = this.article.select("main").shift();
+			
+			this.process();
+			this.social();
+												
+		} catch (Exception) { }
+	},
+
+	social: function()
+	{
+		this.socialButtons = $$(".share-this a");
+		
+		for(i = 0; i < this.socialButtons.length; i++) {
+			Event.observe(this.socialButtons[i], "click", this.doSocial.bind(this));
+		}
+	},
+		
+	doSocial: function(e)
+	{
+		e.preventDefault();
+
+		this.res = {
+			x: screen.width,
+			y: screen.height,
+			s: screen.width + "x" + screen.height,
+			aspect: screen.width / screen.height
+		};
+		
+		var target = e.findElement("a");
+		var link = target.href;
+		var title = "Share on " + target.innerHTML.stripTags().strip();
+		
+		var top = (this.res.y / 2) - 250;
+		var left = (this.res.x / 2) - 300;
+
+		window.open(
+			link,
+			title,
+			"width=600,height=500,scrollbars=yes,titlebar=yes,location=no,fullscreen=no,status=no,top="+top+",left="+left,
+			false
+		);
+		return false;
+	},
+		
+	process: function()
+	{
+		// find any images, iframes, or objects that live inside <p> tags
+		// break them out of the <p> tag
+		// put the object in its own proper container
+		// remove dead <p>
+		
+		this.processor("img", "figure", "");
+		this.processor("iframe", "div", "video-container");
+		this.processor("object", "div", "video-container");
+		
+		this.fixEmbedboxVideos();
+	},
+	
+	fixEmbedboxVideos: function()
+	{
+		var items = this.body.select(".embedbox > iframe");
+		for(i = 0; i < items.length; i++)
+		{
+			var video = items[i];
+			video.setStyle(
+				{
+					height: ((video.getWidth() / 16) * 9) + "px"
+				}
+			);
+		}
+	},
+	
+	processor: function(obj, wrapper, style)
+	{		
+		var items = this.body.select("p " + obj);
+		for(i = 0; i < items.length; i++)
+		{
+			var item = items[i];
+			
+			// Don't wrap if the object has the no-wrap class
+			if(!item.hasClassName("no-wrap"))
+			{
+				var parent = item.up("p");
+				var container = new Element(wrapper);
+				if(style > "")
+				{
+					container.addClassName(style);
+				}
+				
+				new Insertion.Top(container, item);
+				new Insertion.Before(parent, container);
+				parent.remove();			
+			}
+		}
+	}
+})
+
+function number_format (number, decimals, dec_point, thousands_sep) {
+  // http://kevin.vanzonneveld.net
+
+  // Strip all characters but numerical ones.
+  number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
+  var n = !isFinite(+number) ? 0 : +number,
+    prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+    sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+    dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+    s = '',
+    toFixedFix = function (n, prec) {
+      var k = Math.pow(10, prec);
+      return '' + Math.round(n * k) / k;
+    };
+ 
+  // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+  s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+  if (s[0].length > 3) {
+    s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+  }
+  if ((s[1] || '').length < prec) {
+    s[1] = s[1] || '';
+    s[1] += new Array(prec - s[1].length + 1).join('0');
+  }
+  return s.join(dec);
+}
